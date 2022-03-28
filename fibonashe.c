@@ -1,17 +1,22 @@
 #include <stdio.h>
 #include <time.h>
 
-#define ITERAR 50
 
 unsigned long long int fibonashe_recursivo(unsigned long long int fib);
 unsigned long long int fibonashe_iterativo(int entrada);
 
 int main() // 0 1 1 2 3 5
 {
+	int iterar = 0;
+	do
+	{
+		printf("Ingrese un numero: ");
+		scanf("%d", &iterar);
+	}while(iterar < 0);
 	struct timespec begin, end;
 	clock_gettime(CLOCK_REALTIME, &begin);
 
-	for (int i = 1; i < ITERAR; i++)
+	for (int i = 1; i < iterar; i++)
 	{
 		fibonashe_iterativo(i);
 	}
@@ -26,7 +31,7 @@ int main() // 0 1 1 2 3 5
 
 	clock_gettime(CLOCK_REALTIME, &begin);
 
-	for (int i = 1; i < ITERAR; i++)
+	for (int i = 1; i < iterar; i++)
 	{
 		printf("%llu \n", fibonashe_recursivo(i));
 	}
