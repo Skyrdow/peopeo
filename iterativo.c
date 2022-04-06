@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 typedef struct Laberinto
 {
@@ -8,6 +9,26 @@ typedef struct Laberinto
 	int m;
 	char **matriz;
 } laberinto;
+
+typedef struct Coordenada
+{
+	int x;
+	int y;
+} coord;
+
+typedef struct Camino
+{
+	int largo;
+	coord *lista_coords;
+	
+} camino;
+
+typedef struct Conj_Caminos
+{
+	int largo;
+	camino *lista_caminos;
+} lista_caminos;
+
 
 laberinto crear_lab(int n, int m)
 {
@@ -50,11 +71,6 @@ void imprimir_laberinto(laberinto lab)
 	}
 }
 
-int *buscar()
-{
-
-}
-
 FILE *abrir_archivo(char *nom)
 {
 	FILE *fp = fopen(nom, "r");
@@ -85,6 +101,75 @@ laberinto leer_laberinto(FILE *fp)
 	}
 
 	imprimir_laberinto(lab);
+}
+
+coord buscar_e(laberinto lab)
+{
+	coord res;
+	for (int i = 0; i < lab.n; i++)
+	{
+		for (int j = 0; j < lab.m; j++)
+		{
+			if(lab.matriz[i][j] == 'e')
+			{
+				res.x = i;
+				res.y = j;
+				return res;
+			}
+		}
+	}
+}
+
+camino crear_camino()
+{
+	camino cam;
+	cam.largo = 1;
+	cam.lista_coords = malloc(sizeof(coord));
+}
+
+camino camino_append(camino viejo, coord agregar)
+{
+	camino res;
+	res.largo = viejo.largo + 1;
+	res.lista_coords = malloc(sizeof(coord) * res.largo);
+	res.lista_coords[res.largo] = agregar;
+	return res;
+}
+
+int *buscar(laberinto lab_original)
+{
+	coord comienzo = buscar_e(lab_original);
+	laberinto lab_recorrido = copiar_lab(lab_original);
+
+	camino *caminos_recorridos;
+	bool camino_encontrado = false, comprobando_camino = true,
+			camino_viable = true;
+	bool dir[4];
+	int x,y;
+
+	while (!camino_encontrado)
+	{
+
+		while (comprobando_camino)
+		{
+			// izq
+			if (y == 0)
+				if (lab_recorrido.matriz[x][y-1] == 'x')
+					dir[0] = false;
+			// arriba
+			if (x == 0) 
+				if (lab_recorrido.matriz[x-1][y] == 'x')
+					dir[1] = false;
+			// der
+			if (y == lab_original.m)
+				if (lab_recorrido.matriz[x][y+1] == 'x')
+					dir[2] = false;
+			// abajo
+			if (x == lab_original.n)
+				if (lab_recorrido.matriz[x+1][y] == 'x')
+					dir[3] = false;
+		}
+	}
 }
 
 int main(int argc, char *argv[])
