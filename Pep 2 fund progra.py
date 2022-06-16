@@ -18,8 +18,6 @@
 # BLOQUE DE DEFINICIONES
 
 # DEFINICION DE FUNCIONES
-from cgitb import text
-
 
 def LeerArchivos(cant_archivos):
     """
